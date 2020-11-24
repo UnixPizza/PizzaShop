@@ -22,7 +22,9 @@ typedef struct _Table {
 }Table;
 
 void payFunc(Table* pf);
-void writeBills(Table* pf);
-void checkBilsCombination(Table* pf,FILE* fp);
-void checkBilsPotato(Table* pf, FILE* fp);
+void readBills(Table* pf);
+void writeBills(Table* pf, int index, int cash, int change);
+
+void checkBilsCombination(Table* pf, int index, FILE* fp);
+void checkBilsPotato(Table* pf, int index, FILE* fp);
 void orderFunc(Table* table);

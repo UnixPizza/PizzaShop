@@ -8,7 +8,7 @@
 int main_idx = 0;
 int pos_idx = 0;
 int table_idx = 0;
-Table table[10];
+Table table[10] = { {1,0,},{2,0,},{3,0,},{4,0,},{5,0,},{6,0,},{7,0,},{8,0},{9,0},{10,0} };
 
 int main() {
 	while (1) {
