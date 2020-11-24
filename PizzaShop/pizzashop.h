@@ -1,4 +1,6 @@
 #pragma once
+#include <stdio.h>
+
 typedef struct _Table {
 	int ID;
 
