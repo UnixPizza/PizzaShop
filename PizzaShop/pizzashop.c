@@ -18,8 +18,6 @@ void payFunc(Table* pf)
 	int index = checkIndex(pf,tableID);
 	
 	int totalSales = (pf+index)->TotalSales;
-	/*printf(totalSales);
-	printf((pf + index)->Combination);*/
 
 	printf("1.현금결제\n2.카드결제\n");
 	scanf("%d", &payNum);
@@ -82,12 +80,25 @@ void writeBills(Table* pf,int index)
 	fputs("시간 : ",fp);
 	fputs("\n", fp);
 	fputs("ID : ", fp);
-	/*fputs((pf+index)->ID,fp);
+	char buffer[5] = { 0, };
+	_itoa((pf + index)->ID, buffer, 10);
+	fputs(buffer,fp);
 	fputs("\n", fp);
 	fputs("품명                                   단가       수량        금액", fp);
 	fputs("\n-----------------------------------------------------------\n", fp);
-	checkBilsCombination(pf,index, &fp);
-	checkBilsPotato(pf, index, &fp);*/
+	if ((pf + index)->Combination != 0) {
+		fputs("Combination pizza                ", fp);
+		fputs("8,000      ", fp);
+		char buffer[5] = { 0, };
+		_itoa((pf + index)->Combination, buffer, 10);
+		fputs(buffer, fp);
+		fputs("            ", fp);
+		int price = 8000 * ((pf + index)->Combination);
+		_itoa(price, buffer, 10);
+		fputs(buffer, fp);
+	}
+	/*checkBilsCombination(pf,index, &fp);*/
+	//checkBilsPotato(pf, index, &fp);
 	fclose(fp);
 }
 
@@ -95,19 +106,25 @@ void checkBilsCombination(Table* pf, int index, FILE *fp) {
 	if ((pf + index)->Combination != 0) {
 		fputs("Combination pizza                ", fp);
 		fputs("8,000      ", fp);
-		fputs((pf + index)->Combination, fp);
+		char buffer[5] = { 0, };
+		_itoa((pf + index)->Combination, buffer, 10);
+		fputs(buffer, fp);
 		fputs("            ", fp);
 		int price = 8000 * ((pf + index)->Combination);
-		fputs(price, fp);
+		_itoa(price, buffer, 10);
+		fputs(buffer, fp);
 	}
 }
 void checkBilsPotato(Table* pf, int index, FILE* fp) {
 	if ((pf + index)->Potato != 0) {
 		fputs("Potato pizza                        ", fp);
 		fputs("8,000      ", fp);
-		fputs((pf + index)->Potato, fp);
+		char buffer[5] = { 0, };
+		_itoa((pf + index)->Potato, buffer, 10);
+		fputs(buffer, fp);
 		fputs("            ", fp);
 		int price = 8000 * ((pf + index)->Potato);
-		fputs(price, fp);
+		_itoa(price, buffer, 10);
+		fputs(buffer, fp);
 	}
 }
