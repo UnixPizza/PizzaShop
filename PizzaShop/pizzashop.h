@@ -1,9 +1,9 @@
 #pragma once
-#include <stdio.h>
 
 typedef struct _Table {
 	int ID;
-
+	int status;
+	
 	int Combination;
 	int Potato;
 	int Pepperoni;
@@ -15,3 +15,5 @@ typedef struct _Table {
 
 	int TotalSales;
 }Table;
+
+void orderFunc(Table* table);
