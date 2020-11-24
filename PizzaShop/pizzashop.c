@@ -120,6 +120,7 @@ void payFunc(Table* pf)
 			//sleep(1000)
 			//메인함수
 		}
+
 	}
 }
 int checkIndex(Table* pf, int tableID) {

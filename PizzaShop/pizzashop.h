@@ -25,6 +25,4 @@ void payFunc(Table* pf);
 void writeBills(Table* pf);
 void checkBilsCombination(Table* pf,FILE* fp);
 void checkBilsPotato(Table* pf, FILE* fp);
-}Table;
-
 void orderFunc(Table* table);

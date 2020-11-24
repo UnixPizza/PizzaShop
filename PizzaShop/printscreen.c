@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <Windows.h>
+#include "pizzashop.h"
 
 int printMainScreen() {
 	static int index;
