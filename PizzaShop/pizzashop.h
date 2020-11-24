@@ -5,9 +5,10 @@
 #include <Windows.h>
 #include <stdio.h>
 
-typedef struct {
+typedef struct _Table {
 	int ID;
-
+	int status;
+	
 	int Combination;
 	int Potato;
 	int Pepperoni;
@@ -24,3 +25,6 @@ void payFunc(Table* pf);
 void writeBills(Table* pf);
 void checkBilsCombination(Table* pf,FILE* fp);
 void checkBilsPotato(Table* pf, FILE* fp);
+}Table;
+
+void orderFunc(Table* table);

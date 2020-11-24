@@ -144,6 +144,8 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="pizzashop.c" />
+    <ClCompile Include="printscreen.c" />
+    <ClCompile Include="printscreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
