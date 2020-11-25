@@ -21,6 +21,8 @@ typedef struct _Table {
 	int TotalSales;
 }Table;
 
+int totalSalesOfDay;
+
 void payFunc(Table* pf);
 void readBills(Table* pf);
 void writeBills(Table* pf, int index, int cash, int change);

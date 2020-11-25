@@ -11,10 +11,11 @@ int table_idx = 0;
 Table table[10] = { {1,0,},{2,0,},{3,0,},{4,0,},{5,0,},{6,0,},{7,0,},{8,0},{9,0},{10,0} };
 
 int main() {
+
 	while (1) {
 		main_idx = printMainScreen();			// 메인 페이지 Start, Sales Check 선택 화면 출력
-
 		if (main_idx == 1) {					// Start(index: 1) 버튼 입력 시
+			totalSalesOfDay = 0;
 			while (1) {
 				pos_idx = printPosScreen();				// 포스기 기능 선택 화면 출력
 				if (pos_idx == 1) {							// order 선택
@@ -47,7 +48,8 @@ int main() {
 			}
 		}
 		else if (main_idx == 2) {
-			printf("Sales Check Clicked\n");
+			printf("총 매출액은 %d원 입니다.", totalSalesOfDay);
+
 		}
 		else {
 			printf("잘못 누르셨습니다.\n");
