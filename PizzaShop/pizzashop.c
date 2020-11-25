@@ -3,6 +3,8 @@
 #include "pizzashop.h"
 #include <stdio.h>
 #include <Windows.h>
+#include <time.h>
+
 void orderFunc(Table* table) {
 	static int food_idx;
 
@@ -74,62 +76,72 @@ void payFunc(Table* pf)
 	printf("테이블 번호를 입력하세요 : ");
 	scanf("%d", &tableID);
 
-	
 	int totalSales = (pf+tableID-1)->TotalSales;
 	int index = tableID - 1;
 
-	printf("1.현금결제\n2.카드결제\n");
-	scanf("%d", &payNum);
-	if (payNum == 1) {
-		printf("받은 금액 : ");
-		scanf("%d", &cash);
-		printf("거스름 돈 : %d\n", (cash - totalSales));
-		_sleep(1000);
-		//sleep(1000)
-		writeBills(pf,index, cash, (cash - totalSales));
-		printf("영수증을 출력하시겠습니까?(y/n) : ");
-		getchar();
-		scanf("%c", &c);
-		if (c == 'y' || c == 'Y') {
-			readBills(pf);
-		}
-		else if (c == 'N' || c == 'n') {
-			system("cls");
-			//clear();
+	if ((pf + index)->status == 1) {
+		printf("1.현금결제\n2.카드결제\n");
+		scanf("%d", &payNum);
+		if (payNum == 1) {
+			printf("받은 금액 : ");
+			scanf("%d", &cash);
+			printf("거스름 돈 : %d\n", (cash - totalSales));
 			_sleep(1000);
 			//sleep(1000)
-			//메인함수
+			writeBills(pf, index, cash, (cash - totalSales));
+			printf("영수증을 출력하시겠습니까?(y/n) : ");
+			getchar();
+			scanf("%c", &c);
+			if (c == 'y' || c == 'Y') {
+				readBills(pf);
+			}
+			else if (c == 'N' || c == 'n') {
+				system("cls");
+				//clear();
+				_sleep(1000);
+				//sleep(1000)
+				//메인함수
+			}
 		}
-	}
-	else if(payNum==2) {
-		printf("카드결제 중...\n");
-		_sleep(1000);
-		//sleep(1000)
-		//파일 입출력
-		writeBills(pf, index, totalSales, 0);
-		printf("영수증을 출력하시겠습니까?(y/n) : ");
-		getchar();
-		scanf("%c", &c);
-		if (c == 'y'|| c=='Y') {
-			readBills(pf);
-		}
-		else if (c == 'N' || c == 'n') {
-			system("cls");
-			//clear();
+		else if (payNum == 2) {
+			printf("카드결제 중...\n");
 			_sleep(1000);
 			//sleep(1000)
-			
-		}
+			//파일 입출력
+			writeBills(pf, index, totalSales, 0);
+			printf("영수증을 출력하시겠습니까?(y/n) : ");
+			getchar();
+			scanf("%c", &c);
+			if (c == 'y' || c == 'Y') {
+				readBills(pf);
+			}
+			else if (c == 'N' || c == 'n') {
+				system("cls");
+				//clear();
+				_sleep(1000);
+				//sleep(1000)
 
+			}
+			totalSalesOfDay += totalSales;
+		}
+		(pf + index)->status = 0;
+		//같은 테이블을 사용할 경우 주문 메뉴가 초기화 되지 않아있다.
 	}
-	(pf+index)->status = 0;
-	//같은 테이블을 사용할 경우 주문 메뉴가 초기화 되지 않아있다.
+	else if (tableID == 0) {
+		return;
+	}
+	else {
+		printf("해당 테이블은 비어있습니다.\n");
+		payFunc(pf);
+	}
+
+	
 
 }
 
 void readBills(Table* pf) {
 	char line[255];
-	FILE* fp = fopen("C:\\Users\\fishb\\Desktop\\bills.txt", "r");
+	FILE* fp = fopen("C:\\Users\\sy777\\Desktop\\bills.txt", "r");
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		printf("%s",line);
 	}
@@ -139,9 +151,18 @@ void readBills(Table* pf) {
 
 void writeBills(Table* pf,int index,int cash,int change)
 {
-	FILE *fp = fopen("C:\\Users\\fishb\\Desktop\\bills.txt", "w");
+	FILE *fp = fopen("C:\\Users\\sy777\\Desktop\\bills.txt", "w");
+
+	time_t curr;
+	struct tm* d;
+	time(&curr);
+	d = localtime(&curr);
+	char timebuf[80];
+	strftime(timebuf, 80, "%c", d);
+
 	fputs("PizzaShop\n", fp);
 	fputs("시간 : ",fp);
+	fputs(timebuf, fp);
 	fputs("\n", fp);
 	fputs("ID : ", fp);
 	char buffer[10] = { 0, };
