@@ -66,7 +66,7 @@ void orderFunc(Table* table) {
 
 void payFunc(Table* pf)
 {
-	int tableID=0;
+	int tableID = 0;
 	int payNum = 0;
 	int cash = 0;
 	//구조체에서 TotalSales 가져오기
@@ -76,11 +76,16 @@ void payFunc(Table* pf)
 	printf("테이블 번호를 입력하세요 : ");
 	scanf("%d", &tableID);
 
-	int totalSales = (pf+tableID-1)->TotalSales;
+	int totalSales = (pf + tableID - 1)->TotalSales;
 	int index = tableID - 1;
 
-	if ((pf + index)->status == 1) {
+	if (tableID == 0) {
+		return;
+	}
+	else if ((pf + index)->status == 1) {
+		printf("총 금액은 %d원 입니다.\n", totalSales);
 		printf("1.현금결제\n2.카드결제\n");
+
 		scanf("%d", &payNum);
 		if (payNum == 1) {
 			printf("받은 금액 : ");
@@ -88,12 +93,17 @@ void payFunc(Table* pf)
 			printf("거스름 돈 : %d\n", (cash - totalSales));
 			_sleep(1000);
 			//sleep(1000)
-			writeBills(pf, index, cash, (cash - totalSales));
+			time_t curr = time(NULL);
+			struct tm* d;
+			d = localtime(&curr);
+			char timebuf[100];
+			strftime(timebuf, 100, "./bills/%y%m%d_%H%M%S.txt", d);
+			writeBills(pf, index, cash, (cash - totalSales), timebuf);
 			printf("영수증을 출력하시겠습니까?(y/n) : ");
 			getchar();
 			scanf("%c", &c);
 			if (c == 'y' || c == 'Y') {
-				readBills(pf);
+				readBills(pf, timebuf);
 			}
 			else if (c == 'N' || c == 'n') {
 				system("cls");
@@ -108,12 +118,17 @@ void payFunc(Table* pf)
 			_sleep(1000);
 			//sleep(1000)
 			//파일 입출력
-			writeBills(pf, index, totalSales, 0);
+			time_t curr = time(NULL);
+			struct tm* d;
+			d = localtime(&curr);
+			char timebuf[100];
+			strftime(timebuf, 100, "./bills/%y%m%d_%H%M%S.txt", d);
+			writeBills(pf, index, totalSales, 0, timebuf);
 			printf("영수증을 출력하시겠습니까?(y/n) : ");
 			getchar();
 			scanf("%c", &c);
 			if (c == 'y' || c == 'Y') {
-				readBills(pf);
+				readBills(pf, timebuf);
 			}
 			else if (c == 'N' || c == 'n') {
 				system("cls");
@@ -122,36 +137,39 @@ void payFunc(Table* pf)
 				//sleep(1000)
 
 			}
-			totalSalesOfDay += totalSales;
+
 		}
+		totalSalesOfDay += totalSales;
 		(pf + index)->status = 0;
-		//같은 테이블을 사용할 경우 주문 메뉴가 초기화 되지 않아있다.
-	}
-	else if (tableID == 0) {
-		return;
+		(pf + index)->Combination = 0;
+		(pf + index)->Potato = 0;
+		(pf + index)->Pepperoni = 0;
+		(pf + index)->Cheese = 0;
+		(pf + index)->Tomato = 0;
+		(pf + index)->Cream = 0;
+		(pf + index)->Coke = 0;
+		(pf + index)->Cider = 0;
 	}
 	else {
 		printf("해당 테이블은 비어있습니다.\n");
 		payFunc(pf);
 	}
 
-	
-
 }
 
-void readBills(Table* pf) {
+void readBills(Table* pf, char* path) {
 	char line[255];
-	FILE* fp = fopen("C:\\Users\\sy777\\Desktop\\bills.txt", "r");
+	FILE* fp = fopen(path, "r");
 	while (fgets(line, sizeof(line), fp) != NULL) {
-		printf("%s",line);
+		printf("%s", line);
 	}
 	fclose(fp);
 	_sleep(5000);
 }
 
-void writeBills(Table* pf,int index,int cash,int change)
+void writeBills(Table* pf, int index, int cash, int change, char* path)
 {
-	FILE *fp = fopen("C:\\Users\\sy777\\Desktop\\bills.txt", "w");
+	FILE* fp = fopen(path, "w");
 
 	time_t curr;
 	struct tm* d;
@@ -161,13 +179,13 @@ void writeBills(Table* pf,int index,int cash,int change)
 	strftime(timebuf, 80, "%c", d);
 
 	fputs("PizzaShop\n", fp);
-	fputs("시간 : ",fp);
+	fputs("시간 : ", fp);
 	fputs(timebuf, fp);
 	fputs("\n", fp);
 	fputs("ID : ", fp);
 	char buffer[10] = { 0, };
 	_itoa((pf + index)->ID, buffer, 10);
-	fputs(buffer,fp);
+	fputs(buffer, fp);
 	fputs("\n", fp);
 	fputs("품명                                   단가       수량        금액", fp);
 	fputs("\n-----------------------------------------------------------\n", fp);
