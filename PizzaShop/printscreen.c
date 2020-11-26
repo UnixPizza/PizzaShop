@@ -9,6 +9,7 @@ int printMainScreen() {
 
 	printf("1. Start\n");
 	printf("2. Sales Check\n");
+	printf("3. Off\n");
 	printf("------------------------------\n");
 	printf("번호를 입력해주세요: ");
 	scanf("%d", &index);

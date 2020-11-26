@@ -21,7 +21,7 @@ int main() {
 				if (pos_idx == 1) {							// order 선택
 					while (1) {
 						table_idx = printOrderScreen();			// order 화면 출력
-						if (table_idx < 1 || table_idx > 10){					// table 번호 예외 처리
+						if (table_idx < 1 || table_idx > 10) {					// table 번호 예외 처리
 							printf("테이블 번호는 1번부터 10번까지 입니다.\n");
 							Sleep(1000);
 						}
@@ -48,8 +48,12 @@ int main() {
 			}
 		}
 		else if (main_idx == 2) {
-			printf("총 매출액은 %d원 입니다.", totalSalesOfDay);
+			printf("총 매출액은 %d원 입니다.\n", totalSalesOfDay);
+			Sleep(1000);
 
+		}
+		else if (main_idx == 3) {
+			return;
 		}
 		else {
 			printf("잘못 누르셨습니다.\n");

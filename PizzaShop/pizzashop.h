@@ -8,7 +8,7 @@
 typedef struct _Table {
 	int ID;
 	int status;
-	
+
 	int Combination;
 	int Potato;
 	int Pepperoni;
@@ -24,8 +24,8 @@ typedef struct _Table {
 int totalSalesOfDay;
 
 void payFunc(Table* pf);
-void readBills(Table* pf);
-void writeBills(Table* pf, int index, int cash, int change);
+void readBills(Table* pf, char* path);
+void writeBills(Table* pf, int index, int cash, int change, char* path);
 
 void checkBilsCombination(Table* pf, int index, FILE* fp);
 void checkBilsPotato(Table* pf, int index, FILE* fp);
